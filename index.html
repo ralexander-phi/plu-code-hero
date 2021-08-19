@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" class="has-background-light">
+
+  <head>
+    <meta charset="utf-8">
+    <title>PLU Code Hero</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script>
+      const PRODUCE = {
+        "bananas": {
+          "code": 4011,
+          "url": "bananas.png"
+        },
+        "blueberries": {
+          "code": 4240,
+          "url": "blueberries.png"
+        },
+      };
+
+var currFruit = null;
+
+function showFruit() {
+  var nextFruit = currFruit;
+  while (nextFruit == currFruit) {
+    var choices = Object.keys(PRODUCE);
+    var index = Math.floor(Math.random() * choices.length);
+    nextFruit = choices[index];
+  }
+  currFruit = nextFruit;
+  document.querySelector('#item-help').innerText = currFruit;
+  document.querySelector('#item-img').src = PRODUCE[currFruit]['url'];
+
+  // reset
+  var codeElm = document.querySelector('#code');
+  var pluHelp = document.querySelector('#plu-help');
+  codeElm.value = '';
+  pluHelp.innerText = 'Enter the PLU code';
+  codeElm.classList.remove('is-danger');
+  pluHelp.classList.remove('is-danger');
+}
+
+function guessCode(event) {
+  var codeElm = document.querySelector('#code');
+  var pluHelp = document.querySelector('#plu-help');
+  var guessedCode = codeElm.value.trim();
+  var actualCode = PRODUCE[currFruit]['code'];
+  if (guessedCode == '') {
+    // No code entered
+    pluHelp.classList.add('is-danger');
+    codeElm.classList.add('is-danger');
+    return;
+  }
+  if (guessedCode == actualCode) {
+    showFruit();
+  } else {
+    // TODO: remove a heart
+    pluHelp.innerText = "That doesn't look right";
+    pluHelp.classList.add('is-danger');
+    codeElm.classList.add('is-danger');
+  }
+}
+
+function setup() {
+  document.querySelector('#plu-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    guessCode();
+  });
+}
+
+function startGame() {
+  showFruit();
+}
+
+window.onload = function() {
+  setup();
+  startGame();
+};
+    </script>
+  </head>
+  <body class="has-background-light">
+    <section class="hero">
+      <div class="hero-body">
+        <p class="title">
+        PLU Code Hero
+        </p>
+        <p class="subtitle">
+        Champion of the Checkout
+        </p>
+      </div>
+    </section>
+    <div class="container">
+      <div class="columns">
+
+        <div class="column is-4 m-4">
+          <section class="box m-4 p-6">
+            <img id="item-img" class="image"></img>
+            <p id="item-help" class="has-text-centered is-size-5 pt-5"></p>
+          </section>
+        </div>
+
+        <div class="column is-4 m-4">
+          <section class="box m-4 p-6">
+            <form id="plu-form">
+              <div class="field">
+                <label class="label">PLU Code</label>
+                <div class="control">
+                  <input id="code" type="text" class="input" autocomplete="off"></input>
+                </div>
+                <p id="plu-help" class="help"></p>
+              </div>
+              <br />
+              <input type="submit" autofocus class="button is-primary" value="Enter"></input>
+            </form>
+          </section>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
