@@ -1,15 +1,7 @@
 import { Component } from 'react';
+import Data from './data';
 
-const produceInfo = {
-  '4011': {
-    'name': 'Banana',
-    'img': 'bananas.png',
-  },
-  '4240': {
-    'name': 'blueberries',
-    'img': 'blueberries.png',
-  },
-};
+const produceInfo = new Data().produceInfo;
 
 interface GameState {
   playing: Boolean
@@ -81,8 +73,12 @@ export default class Game extends Component<{}, GameState> {
             <div className="columns">
               <div className="column is-4 m-4">
                 <section className="box m-4 p-6">
-                  <img src={ '/images/' + produceInfo[this.state.currentCode].img }></img>
-                  <p className="has-text-centered is-size-5 pt-5">{ produceInfo[this.state.currentCode].name }</p>
+                  <p className="has-text-centered is-size-5 pt-5">{
+                    produceInfo[this.state.currentCode].category + ' ' +
+                    produceInfo[this.state.currentCode].sub_category + ' ' +
+                    produceInfo[this.state.currentCode].variety + ' ' +
+                    produceInfo[this.state.currentCode].size
+                  }</p>
                 </section>
               </div>
 
@@ -124,7 +120,7 @@ export default class Game extends Component<{}, GameState> {
                           this.setState({
                             hearts: newHearts,
                             ended: newEnded,
-                            helpText: 'Nope',
+                            helpText: "Incorrect: " + this.state.currentCode,
                           });
                         }
                       }
