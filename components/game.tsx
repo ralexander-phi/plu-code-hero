@@ -35,7 +35,7 @@ export default class Game extends Component<{}, GameState> {
   }
 
   showNextItem() {
-    const choices = levels['popular fruit'];
+    const choices = levels['popular vegetables'];
     var nextCode = this.state.currentCode;
 
     // Ensure we change to a new item

@@ -3,6 +3,9 @@ export default class Data {
     "popular fruit": [
       4011, 3284, 4246, 4272, 3107, 4031, 4240, 4033, 4400, 4046,
     ],
+    "popular vegetables": [
+      3414, 4064, 4159, 4094, 4640, 4065, 4060, 4062, 4582, 4085,
+    ],
   };
 
   readonly produceInfo = {
