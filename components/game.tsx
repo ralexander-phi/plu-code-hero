@@ -10,6 +10,7 @@ const GAME_LIVES = 5;
 
 interface GameState {
   playing: Boolean
+  level: String
   started: Date
   ended: Date
   score: Number
@@ -24,6 +25,7 @@ export default class Game extends Component<{}, GameState> {
     super(props);
     this.state = {
       playing: false,
+      level: null,
       started: null,
       ended: null,
       score: 0,
@@ -35,7 +37,14 @@ export default class Game extends Component<{}, GameState> {
   }
 
   showNextItem() {
-    const choices = levels['popular vegetables'];
+    var nextLevel = this.state.level;
+    if (nextLevel == null) {
+      var levelIndex = Math.floor(Math.random() * Object.keys(levels).length);
+      nextLevel = Object.keys(levels)[levelIndex];
+    }
+    console.log(nextLevel);
+
+    const choices = levels[nextLevel];
     var nextCode = this.state.currentCode;
 
     // Ensure we change to a new item
@@ -46,12 +55,19 @@ export default class Game extends Component<{}, GameState> {
 
     this.setState({
       playing: true,
+      level: nextLevel,
       started: new Date(),
       ended: null,
       currentCode: nextCode,
       guessText: '',
       helpText: '',
     });
+  }
+
+  renderScore() {
+    return (<p>
+      You got { this.state.score } correct in { (this.state.ended.getTime() - this.state.started.getTime()) / 1000 } seconds
+      </p>);
   }
 
   render() {
@@ -137,12 +153,13 @@ export default class Game extends Component<{}, GameState> {
           <div className="hero-body">
             <div class="container has-text-centered">
               <h3 className="subtitle is-2">Great Work!</h3>
-              <p>You got { this.state.score } correct in { (this.state.ended.getTime() - this.state.started.getTime()) / 1000 } seconds</p>
+              { this.renderScore() }
               <button
                 className="button is-dark mt-5"
                 onClick={(e) => {
                   this.setState({
                     playing: false,
+                    level: null,
                   });
                 }}>
                 Play Again
@@ -160,12 +177,13 @@ export default class Game extends Component<{}, GameState> {
           <div className="hero-body">
             <div class="container has-text-centered">
               <h3 className="subtitle is-2">Out of lives!</h3>
-              <p>You got { this.state.score } correct in { (this.state.ended.getTime() - this.state.started.getTime()) / 1000 } seconds</p>
+              { this.renderScore() }
               <button
                 className="button is-dark mt-5"
                 onClick={(e) => {
                   this.setState({
                     playing: false,
+                    level: null,
                   });
                 }}>
                 Reset

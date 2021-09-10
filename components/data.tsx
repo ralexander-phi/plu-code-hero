@@ -1,12 +1,4 @@
 export default class Data {
-  readonly levels = {
-    "popular fruit": [
-      4011, 3284, 4246, 4272, 3107, 4031, 4240, 4033, 4400, 4046,
-    ],
-    "popular vegetables": [
-      3414, 4064, 4159, 4094, 4640, 4065, 4060, 4062, 4582, 4085,
-    ],
-  };
 
   readonly produceInfo = {
     "3000": {
@@ -6525,5 +6517,17 @@ export default class Data {
       "variety": "Yellow",
       "size": "large"
     }
+  };
+
+  readonly levels = {
+    "popular fruit": [
+      4011, 3284, 4246, 4272, 3107, 4031, 4240, 4033, 4400, 4046,
+    ],
+    "popular vegetables": [
+      3414, 4064, 4159, 4094, 4640, 4065, 4060, 4062, 4582, 4085,
+    ],
+    "popular nuts": [
+      3105, 3106, 4924, 4926, 4927, 4928, 4929, 4930, 4936, 4942,
+    ],
   };
 }
