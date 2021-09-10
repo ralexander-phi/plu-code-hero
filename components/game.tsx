@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Data from './data';
+import Item from './item';
 
 const produceInfo = new Data().produceInfo;
 
@@ -71,10 +72,12 @@ export default class Game extends Component<{}, GameState> {
             </div>
 
             <p className="has-text-centered is-size-4 p-5 m-6">{
-              //produceInfo[this.state.currentCode].category + ' ' +
-              produceInfo[this.state.currentCode].sub_category + ' ' +
-              produceInfo[this.state.currentCode].variety + ' ' +
-              produceInfo[this.state.currentCode].size
+              <Item
+                category={ produceInfo[this.state.currentCode].category }
+                sub_category={ produceInfo[this.state.currentCode].sub_category }
+                variety={ produceInfo[this.state.currentCode].variety }
+                size={ produceInfo[this.state.currentCode].size }
+                />
             }</p>
 
             <form id="plu-form" style={{ textAlign: "center" }}>
