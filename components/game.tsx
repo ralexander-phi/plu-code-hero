@@ -5,6 +5,9 @@ import Item from './item';
 const produceInfo = new Data().produceInfo;
 const levels = new Data().levels;
 
+const GAME_SCORE_WIN = 10;
+const GAME_LIVES = 5;
+
 interface GameState {
   playing: Boolean
   started: Date
@@ -53,7 +56,7 @@ export default class Game extends Component<{}, GameState> {
 
   render() {
     if (this.state.playing) {
-      if (this.state.hearts > 0) {
+      if (this.state.hearts > 0 && this.state.score < GAME_SCORE_WIN) {
         return (
           <div className="container mt-6" style={{ width: "30em" }}>
             <div className="field is-grouped is-grouped-multiline">
@@ -101,10 +104,15 @@ export default class Game extends Component<{}, GameState> {
                     e.preventDefault();
                     const guess = this.state.guessText.trim();
                     if (guess == this.state.currentCode) {
+                      var newScore = this.state.score + 1;
+                      var newEnded = newScore >= GAME_SCORE_WIN ? new Date() : null;
                       this.setState({
-                        score: this.state.score + 1,
+                        score: newScore,
+                        ended: newEnded,
                       });
-                      this.showNextItem();
+                      if (!newEnded) {
+                        this.showNextItem();
+                      }
                     } else {
                       var newHearts = this.state.hearts - 1;
                       var newEnded = newHearts > 0 ? null : new Date();
@@ -121,9 +129,32 @@ export default class Game extends Component<{}, GameState> {
             </form>
           </div>
         );
-      } else {
+      } else if (this.state.score >= GAME_SCORE_WIN) {
         return (
           <section className="hero is-success is-fullheight">
+          <div className="hero-head">
+          </div>
+          <div className="hero-body">
+            <div class="container has-text-centered">
+              <h3 className="subtitle is-2">Great Work!</h3>
+              <p>You got { this.state.score } correct in { (this.state.ended.getTime() - this.state.started.getTime()) / 1000 } seconds</p>
+              <button
+                className="button is-dark mt-5"
+                onClick={(e) => {
+                  this.setState({
+                    playing: false,
+                  });
+                }}>
+                Play Again
+              </button>
+            </div>
+          </div>
+          <div class="hero-foot"></div>
+          </section>
+        );
+      } else {
+        return (
+          <section className="hero is-warning is-fullheight">
           <div className="hero-head">
           </div>
           <div className="hero-body">
@@ -169,7 +200,7 @@ export default class Game extends Component<{}, GameState> {
           autoFocus
           onClick={(e) => {
             this.setState({
-              hearts: 5,
+              hearts: GAME_LIVES,
               score: 0,
             });
             this.showNextItem();
