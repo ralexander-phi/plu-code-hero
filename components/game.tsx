@@ -3,6 +3,7 @@ import Data from './data';
 import Item from './item';
 
 const produceInfo = new Data().produceInfo;
+const levels = new Data().levels;
 
 interface GameState {
   playing: Boolean
@@ -31,7 +32,7 @@ export default class Game extends Component<{}, GameState> {
   }
 
   showNextItem() {
-    const choices = Object.keys(produceInfo);
+    const choices = levels['popular fruit'];
     var nextCode = this.state.currentCode;
 
     // Ensure we change to a new item

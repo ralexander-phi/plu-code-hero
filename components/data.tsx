@@ -1,4 +1,10 @@
 export default class Data {
+  readonly levels = {
+    "popular fruit": [
+      4011, 3284, 4246, 4272, 3107, 4031, 4240, 4033, 4400, 4046,
+    ],
+  };
+
   readonly produceInfo = {
     "3000": {
       "category": "Fruits",
@@ -6516,5 +6522,5 @@ export default class Data {
       "variety": "Yellow",
       "size": "large"
     }
-  }
+  };
 }
