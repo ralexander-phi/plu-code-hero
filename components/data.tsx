@@ -1,6 +1,15 @@
+interface ProduceInfo {
+  readonly [index: string]: {
+    category: string
+    sub_category: string
+    variety: string
+    size: string
+  }
+}
+
 export default class Data {
 
-  readonly produceInfo = {
+  produceInfo: ProduceInfo = {
     "3000": {
       "category": "Fruits",
       "sub_category": "APPLES",

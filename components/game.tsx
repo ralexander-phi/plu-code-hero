@@ -9,15 +9,15 @@ const GAME_SCORE_WIN = 10;
 const GAME_LIVES = 5;
 
 interface GameState {
-  playing: Boolean
-  level: String
+  playing: boolean
+  level: string
   started: Date
   ended: Date
-  score: Number
-  hearts: Number
-  currentCode: String 
-  guessText: String
-  helpText: String
+  score: number
+  hearts: number
+  currentCode: string 
+  guessText: string
+  helpText: string
 }
 
 export default class Game extends Component<{}, GameState> {
@@ -151,7 +151,7 @@ export default class Game extends Component<{}, GameState> {
           <div className="hero-head">
           </div>
           <div className="hero-body">
-            <div class="container has-text-centered">
+            <div className="container has-text-centered">
               <h3 className="subtitle is-2">Great Work!</h3>
               { this.renderScore() }
               <button
@@ -166,7 +166,7 @@ export default class Game extends Component<{}, GameState> {
               </button>
             </div>
           </div>
-          <div class="hero-foot"></div>
+          <div className="hero-foot"></div>
           </section>
         );
       } else {
@@ -175,7 +175,7 @@ export default class Game extends Component<{}, GameState> {
           <div className="hero-head">
           </div>
           <div className="hero-body">
-            <div class="container has-text-centered">
+            <div className="container has-text-centered">
               <h3 className="subtitle is-2">Out of lives!</h3>
               { this.renderScore() }
               <button
@@ -190,7 +190,7 @@ export default class Game extends Component<{}, GameState> {
               </button>
             </div>
           </div>
-          <div class="hero-foot"></div>
+          <div className="hero-foot"></div>
           </section>
         );
       }
