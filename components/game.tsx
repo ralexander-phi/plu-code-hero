@@ -53,8 +53,8 @@ export default class Game extends Component<{}, GameState> {
     if (this.state.playing) {
       if (this.state.hearts > 0) {
         return (
-          <div className="container">
-            <div className="field is-grouped is-grouped-multiline ml-6">
+          <div className="container mt-6" style={{ width: "30em" }}>
+            <div className="field is-grouped is-grouped-multiline">
               <div className="control">
                 <div className="tags has-addons">
                   <span className="tag is-danger is-medium">Lives</span>
@@ -70,94 +70,99 @@ export default class Game extends Component<{}, GameState> {
               </div>
             </div>
 
-            <div className="columns">
-              <div className="column is-4 m-4">
-                <section className="box m-4 p-6">
-                  <p className="has-text-centered is-size-5 pt-5">{
-                    produceInfo[this.state.currentCode].category + ' ' +
-                    produceInfo[this.state.currentCode].sub_category + ' ' +
-                    produceInfo[this.state.currentCode].variety + ' ' +
-                    produceInfo[this.state.currentCode].size
-                  }</p>
-                </section>
+            <p className="has-text-centered is-size-4 p-5 m-6">{
+              //produceInfo[this.state.currentCode].category + ' ' +
+              produceInfo[this.state.currentCode].sub_category + ' ' +
+              produceInfo[this.state.currentCode].variety + ' ' +
+              produceInfo[this.state.currentCode].size
+            }</p>
+
+            <form id="plu-form" style={{ textAlign: "center" }}>
+              <div className="field">
+                <input
+                  id="code"
+                  type="number"
+                  className="input"
+                  autoComplete="off"
+                  onChange={
+                    e => {
+                      this.setState({ 
+                        guessText: e.target.value,
+                      });
+                    }}
+                  style={{ width: "8em"}}
+                  value={this.state.guessText} />
+                <input type="submit" autoFocus className="button is-primary ml-4" value="Enter" onClick={
+                  (e) => {
+                    e.preventDefault();
+                    const guess = this.state.guessText.trim();
+                    if (guess == this.state.currentCode) {
+                      this.setState({
+                        score: this.state.score + 1,
+                      });
+                      this.showNextItem();
+                    } else {
+                      var newHearts = this.state.hearts - 1;
+                      var newEnded = newHearts > 0 ? null : new Date();
+                      this.setState({
+                        hearts: newHearts,
+                        ended: newEnded,
+                        helpText: "Incorrect. Try " + this.state.currentCode,
+                      });
+                    }
+                  }
+                }></input>
+                <p className="help is-danger">{this.state.helpText}</p>
               </div>
-
-              <div className="column is-4 m-4">
-                <section className="box m-4 p-6">
-                  <form id="plu-form">
-                    <div className="field">
-                      <label className="label">PLU Code</label>
-                      <div className="control">
-                        <input
-                          id="code"
-                          type="text"
-                          className="input"
-                          autoComplete="off"
-                          onChange={
-                            e => {
-                              this.setState({ 
-                                guessText: e.target.value,
-                              });
-                            }}
-                          value={this.state.guessText} />
-                      </div>
-
-                      <p className="help is-danger">{this.state.helpText}</p>
-                    </div>
-                    <br />
-                    <input type="submit" autoFocus className="button is-primary" value="Enter" onClick={
-                      (e) => {
-                        e.preventDefault();
-                        const guess = this.state.guessText.trim();
-                        if (guess == this.state.currentCode) {
-                          this.setState({
-                            score: this.state.score + 1,
-                          });
-                          this.showNextItem();
-                        } else {
-                          var newHearts = this.state.hearts - 1;
-                          var newEnded = newHearts > 0 ? null : new Date();
-                          this.setState({
-                            hearts: newHearts,
-                            ended: newEnded,
-                            helpText: "Incorrect: " + this.state.currentCode,
-                          });
-                        }
-                      }
-                    }></input>
-                  </form>
-                </section>
-              </div>
-
-            </div>
+            </form>
           </div>
         );
       } else {
         return (
-          <section className="hero is-warning is-medium mt-6">
-          <div className="hero-body">
-          <h3 className="subtitle is-6">Game Over</h3>
-          <p>You got { this.state.score } correct in { (this.state.ended.getTime() - this.state.started.getTime()) / 1000 } seconds</p>
-          <button
-            className="button is-dark mt-5"
-            onClick={(e) => {
-              this.setState({
-                playing: false,
-              });
-            }}>
-            Reset
-          </button>
+          <section className="hero is-success is-fullheight">
+          <div className="hero-head">
           </div>
+          <div className="hero-body">
+            <div class="container has-text-centered">
+              <h3 className="subtitle is-2">Out of lives!</h3>
+              <p>You got { this.state.score } correct in { (this.state.ended.getTime() - this.state.started.getTime()) / 1000 } seconds</p>
+              <button
+                className="button is-dark mt-5"
+                onClick={(e) => {
+                  this.setState({
+                    playing: false,
+                  });
+                }}>
+                Reset
+              </button>
+            </div>
+          </div>
+          <div class="hero-foot"></div>
           </section>
         );
       }
     } else {
       return (
+        <>
+        <section className="hero is-small">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <p className="title">
+              PLU Code Hero
+              </p>
+              <p className="subtitle is-6">
+              Champion of the Checkout Lane
+              </p>
+            </div>
+          </div>
+        </section>
         <section className="hero is-primary is-medium mt-6">
+
         <div className="hero-body">
         <h3 className="title is-4">Can you master an onslaught of price look-up (PLU) codes?</h3>
         <button
           className="button is-primary is-medium is-inverted mt-3"
+          autoFocus
           onClick={(e) => {
             this.setState({
               hearts: 5,
@@ -169,6 +174,7 @@ export default class Game extends Component<{}, GameState> {
         </button>
         </div>
         </section>
+        </>
       );
     }
   }
